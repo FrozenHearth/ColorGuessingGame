@@ -1,4 +1,4 @@
-let squareNumber;
+let numberofSquares;
 let colors = [];
 let pickedColor;
 
@@ -9,108 +9,112 @@ const h1 = document.querySelector('h1');
 const resetButton = document.querySelector('#reset');
 const easyBtn = document.querySelector('#easyBtn');
 const hardBtn = document.querySelector('#hardBtn');
- 
-(function init(){
-	squareNumber = 6;
-	colors = generateRandomColors(squareNumber);
-	pickedColor = pickColor();
-	
-	// Button event listeners
-	[easyBtn, hardBtn].forEach(element => {
-		element.addEventListener('click', e => changeDifficulty(e.target.id));
-	});
-	
-	resetButton.addEventListener('click', reset);
-    
-	// UI
-	colorDisplay.textContent = pickedColor;
-	squares.forEach((square, i) => {
-		
-		//Add initial colors to squares
-		square.style.background = colors[i];
-		
-		//Add click listeners to squares
-		square.addEventListener('click', () => {
-			//grab color of clicked square
-			const clickedColor = square.style.background;
-			if (clickedColor === pickedColor) {
-                messageDislay.textContent = 'Correct!';
-                resetButton.textContent = 'Try Again?'
-                changeColors(clickedColor);
-                h1.style.background = clickedColor;
-            } else {
-                square.style.background = '#232323';
-                messageDislay.textContent = 'Try Again';
-            }
-        });
-    });
-})();
- 
-function reset(){
-    // Generate new colors
-    colors = generateRandomColors(squareNumber);
-    
-    // Pick a new color from the array 
-    pickedColor = pickColor();
-    
-    // Change color display to match picked color 
-    colorDisplay.textContent = pickedColor;
-    
-    // Change color of squares
-    squares.forEach((square, i) => {
-        if(colors[i]){
-            square.style.background = colors[i];
-            square.style.display = 'block';
-        } else {
-            square.style.display = 'none';
-        }
-    });
-    
-    resetButton.textContent = 'New colors';
-    h1.style.background = 'steelblue';
-    messageDislay.textContent = '';
-}
- 
-function changeColors(color) {
-    // Loop through all squares and change each color to match given color
-    squares.forEach((el, i) => squares[i].style.background = color);
-}
- 
-function pickColor(){
-	// Pick a random color
-    const random = Math.floor(Math.random() * colors.length);
-    return colors[random];
-}
- 
-function generateRandomColors(num){
-    // Create the colors array
-    const colorArr = [];
-    // Repeat num times
-    for(let i = 0; i < num; i++){
-        //generate the color and push it to array
-        colorArr.push(randomColor());
-    }    
-    return colorArr;
-}
- 
-function randomColor(){
-    const r = Math.floor(Math.random() * 256); //red
-    const g = Math.floor(Math.random() * 256); //green
-    const b = Math.floor(Math.random() * 256); //blue
-    return `rgb(${r}, ${g}, ${b})`;
-}
- 
-function changeDifficulty(btnId) {
-	//Change the number of squares depending of difficulty
-	squareNumber = btnId === 'hardBtn' ? 6 : 3;
- 
-    if (btnId === 'hardBtn') {
-        hardBtn.classList.add('selected')
-        easyBtn.classList.remove('selected');
+
+const generateRandomColors = (num) => {
+  // Create the colors array and return it.
+  const colorArr = [];
+  // Repeat num times (num = numberofSquares(3 or 6))
+  for (let i = 0; i < num; i++) {
+    //generate the color and push it to array
+    colorArr.push(randomColor());
+  }
+  return colorArr;
+};
+
+const randomColor = () => {
+  const r = Math.floor(Math.random() * 256); //red
+  const g = Math.floor(Math.random() * 256); //green
+  const b = Math.floor(Math.random() * 256); //blue
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
+const pickColor = () => {
+  // Pick a random color index from the colors array
+  const random = Math.floor(Math.random() * colors.length);
+  return colors[random];
+};
+
+const reset = () => {
+  // Generate new colors
+  colors = generateRandomColors(numberofSquares);
+
+  // Pick a random color from one of the pushed values to the colorArr on reset
+  pickedColor = pickColor();
+
+  // Change color display to match picked color
+  colorDisplay.textContent = pickedColor;
+
+  // Change color of squares
+  squares.forEach((square, i) => {
+    if (colors[i]) {
+      square.style.background = colors[i];
+      square.style.display = 'block';
     } else {
-        easyBtn.classList.add('selected');
-        hardBtn.classList.remove('selected')
+      square.style.display = 'none';
     }
-    //Reset the UI
-	reset();
-}
+  });
+
+  resetButton.textContent = 'New colors';
+  h1.style.background = 'steelblue';
+  messageDislay.textContent = '';
+};
+
+// Initialize the values
+
+(function init() {
+  numberofSquares = 6;
+  colors = generateRandomColors(numberofSquares);
+  pickedColor = pickColor(); // Pick a random color from one of the 6 values pushed to colors array
+
+  // Button event listeners
+  [easyBtn, hardBtn].forEach((element) => {
+    element.addEventListener('click', (e) => changeDifficulty(e.target.id));
+  });
+
+  resetButton.addEventListener('click', reset);
+
+  /*==============
+        UI
+  ===============*/
+
+  colorDisplay.textContent = pickedColor;
+  squares.forEach((square, i) => {
+    //Add initial colors to squares
+    square.style.background = colors[i];
+
+    //Add click listeners to squares
+    square.addEventListener('click', () => {
+      //grab color of clicked square
+      const clickedColor = square.style.background;
+      if (clickedColor === pickedColor) {
+        messageDislay.textContent = 'Correct!';
+        resetButton.textContent = 'Try Again?';
+        changeColors(clickedColor);
+        h1.style.background = clickedColor;
+      } else {
+        square.style.background = '#232323';
+        messageDislay.textContent = 'Keep Trying';
+      }
+    });
+  });
+})();
+
+const changeColors = (color) => {
+  // Loop through all squares and change each color to match given color when the correct square is clicked.
+  squares.forEach((el, i) => (squares[i].style.background = color));
+};
+
+const changeDifficulty = (btnId) => {
+  //Change the number of squares depending on difficulty
+  numberofSquares = btnId === 'hardBtn' ? 6 : 3;
+
+  if (btnId === 'hardBtn') {
+    hardBtn.classList.add('selected');
+    easyBtn.classList.remove('selected');
+  } else {
+    easyBtn.classList.add('selected');
+    hardBtn.classList.remove('selected');
+  }
+  //Reset the UI
+  reset();
+};
