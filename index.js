@@ -55,7 +55,7 @@ const reset = () => {
   });
 
   resetButton.textContent = 'New colors';
-  h1.style.background = 'steelblue';
+  h1.style.background = 'rgb(55, 55, 55)';
   messageDislay.textContent = '';
 };
 
