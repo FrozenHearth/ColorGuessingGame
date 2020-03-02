@@ -22,9 +22,7 @@ const generateRandomColors = (num) => {
 };
 
 const randomColor = () => {
-  const r = Math.floor(Math.random() * 256); //red
-  const g = Math.floor(Math.random() * 256); //green
-  const b = Math.floor(Math.random() * 256); //blue
+  const r = Math.floor(Math.random() * 256), g = r, b = r;
   return `rgb(${r}, ${g}, ${b})`;
 };
 
