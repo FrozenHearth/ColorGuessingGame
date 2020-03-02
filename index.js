@@ -22,9 +22,9 @@ const generateRandomColors = (num) => {
 };
 
 const randomColor = () => {
-  const r = Math.floor(Math.random() * 256); //red
-  const g = Math.floor(Math.random() * 256); //green
-  const b = Math.floor(Math.random() * 256); //blue
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
   return `rgb(${r}, ${g}, ${b})`;
 };
 
@@ -55,13 +55,13 @@ const reset = () => {
   });
 
   resetButton.textContent = 'New colors';
-  h1.style.background = 'rgb(55, 55, 55)';
+  h1.style.background = 'steelblue';
   messageDislay.textContent = '';
 };
 
 // Initialize the values
 
-(function init() {
+(() => {
   numberofSquares = 6;
   colors = generateRandomColors(numberofSquares);
   pickedColor = pickColor(); // Pick a random color from one of the 6 values pushed to colors array
@@ -101,7 +101,7 @@ const reset = () => {
 
 const changeColors = (color) => {
   // Loop through all squares and change each color to match given color when the correct square is clicked.
-  squares.forEach((el, i) => (squares[i].style.background = color));
+  squares.forEach((_, i) => (squares[i].style.background = color));
 };
 
 const changeDifficulty = (btnId) => {
