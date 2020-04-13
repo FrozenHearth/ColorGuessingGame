@@ -12,7 +12,7 @@ const hardBtn = document.querySelector('#hardBtn');
 
 const generateRandomColors = (num) => {
   // Create the colors array and return it.
-  const colorArr = [];
+  let colorArr = [];
   // Repeat num times (num = numberofSquares(3 or 6))
   for (let i = 0; i < num; i++) {
     //generate the color and push it to array
