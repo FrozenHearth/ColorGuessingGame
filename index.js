@@ -35,19 +35,16 @@ const pickColor = () => {
 };
 
 const reset = () => {
-  // Generate new colors
-  colors = generateRandomColors(numberofSquares);
+  let colors = generateRandomColors(numberofSquares);
+  const pickedColor = pickColor();
+  const {textContent: colorText} = colorDisplay;
+  const colorsCopy = colors.slice();
 
-  // Pick a random color from one of the pushed values to the colorArr on reset
-  pickedColor = pickColor();
+  colorText = pickedColor;
 
-  // Change color display to match picked color
-  colorDisplay.textContent = pickedColor;
-
-  // Change color of squares
   squares.forEach((square, i) => {
-    if (colors[i]) {
-      square.style.background = colors[i];
+    if (colorsCopy[i]) {
+      square.style.background = colorsCopy[i];
       square.style.display = 'block';
     } else {
       square.style.display = 'none';
